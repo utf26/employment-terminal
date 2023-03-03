@@ -1,0 +1,96 @@
+div[data-controller="modal-form"]
+  .flex.items-center.justify-center.h-screen
+    .px-6.py-6.bg-white.shadow-xl.ring-2.ring-gray-900/10.sm:mx-auto.sm:max-w-lg.sm:rounded-lg.sm:px-10
+      .max-w-md.mx-auto
+        .py-8.space-y-8
+          button#personalDataModalOpenBtn.w-full.h-12.px-6.text-white.transition-colors.duration-150.bg-indigo-700.rounded-lg.focus:shadow-outline.hover:bg-indigo-800[data-action="click->modal-form#open_personal_data_modal"]
+            | Personal Data
+          button#employmentModalOpenBtn.w-full.h-12.px-6.text-white.transition-colors.duration-150.bg-indigo-700.rounded-lg.focus:shadow-outline.hover:bg-indigo-800[data-action="click->modal-form#open_employment_modal"]
+            | Employment
+  #personalDataModal.fixed.top-0.left-0.flex.items-center.justify-center.hidden.w-full.h-full[data-modal-form-target="personalDataModal"]
+    #personalDataModalOverlay.absolute.w-full.h-full.bg-gray-900.opacity-50[data-modal-form-target="personalDataModalOverlay"]
+    .z-50.w-11/12.mx-auto.bg-white.rounded.shadow-lg.md:max-w-md[data-controller="form"]
+      .px-4.py-4.bg-gray-300
+        h2.text-lg.font-semibold
+          | Personal Data
+      .px-6.pt-2.pb-2.overflow-y-auto.max-h-96
+        div[data-form-target="errorMessage"]
+          .px-4.py-2.font-bold.text-white.bg-red-500.rounded-t
+            |  Error
+          .px-4.py-4.text-red-700.bg-red-100.border.border-t-0.border-red-400.rounded-b
+            p
+              | Record not saved
+        div[data-form-target="successMessage"]
+          .px-4.py-2.font-bold.text-white.bg-green-500.rounded-t
+            |  Success
+          .px-4.py-4.text-green-700.bg-green-100.border.border-t-0.border-green-400.rounded-b
+            p
+              | Record saved
+        = form_with(model: User.new, url: modal_dashboards_create_user_path, method: :post, remote: true, class: "space-y-4", id: 'user-form', data: { form_target: "userForm" }) do |form|
+          div
+            = form.label :first_name, class: "block font-bold text-gray-700", data: {form_target: "firstNameLabel"} do
+              |  First Name
+              span.text-red-500
+                | *
+            = form.text_field :first_name, maxlength: 25, class: "block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50", required: true, data: {form_target: "firstNameInput"}
+            .invalid-feedback[data-form-target="firstNameInputError"]
+          div
+            = form.label :last_name, class: "block font-bold text-gray-700", data: {form_target: "lastNameLabel"} do
+              |  Last Name
+              span.text-red-500
+                | *
+            = form.text_field :last_name, maxlength: 50, class: "block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50", required: true, data: {form_target: "lastNameInput"}
+            .invalid-feedback[data-form-target="lastNameInputError"]
+          div
+            = form.label :nick_name, class: "block font-bold text-gray-700", data: {form_target: "nickNameLabel"} do
+              |  Nick Name
+              span.text-red-500
+                | *
+            = form.text_field :nick_name, class: "block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50", data: {form_target: "nickNameInput"}
+            .invalid-feedback[data-form-target="nickNameInputError"]
+          div
+            = form.label :email, class: "block font-bold text-gray-700", data: {form_target: "emailLabel"} do
+              |  Email
+              span.text-red-500
+                | *
+            = form.email_field :email, class: "block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50", required: true, data: {form_target: "emailInput"}
+            .invalid-feedback[data-form-target="emailInputError"]
+          div
+            = form.label :phone_number, class: "block font-bold text-gray-700", data: {form_target: "phoneLabel"} do
+              |  Phone Number
+              span.text-red-500
+                | *
+            = form.telephone_field :phone_number, maxlength: 25, class: "block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50", required: true, data: {form_target: "phoneInput"}
+            .invalid-feedback[data-form-target="phoneInputError"]
+      .flex.justify-end.px-4.pt-8.pb-4
+        button#personalDataModalCloseBtn.px-4.py-2.mr-2.font-bold.text-white.bg-gray-500.rounded.hover:bg-gray-800[type="button" data-action="click->modal-form#close_personal_data_modal"]
+          | Cancel
+        = button_tag class:"px-4 py-2 ml-2 font-bold text-white bg-blue-500 rounded", data: {form_target: "userFormSubmitBtn"}, type: 'submit', form: 'user-form' do
+          |  Save
+  #employmentModal.fixed.top-0.left-0.flex.items-center.justify-center.hidden.w-full.h-full[data-modal-form-target="employmentModal" data-form-target="employmentModal" data-employment-target="employmentModal"]
+    #employmentModalOverlay.absolute.w-full.h-full.bg-gray-900.opacity-50[data-modal-form-target="employmentModalOverlay" data-form-target="employmentModalOverlay"]
+    .z-50.w-11/12.mx-auto.bg-white.rounded.shadow-lg.md:max-w-md[data-controller="employment"]
+      .px-4.py-4.bg-gray-300
+        h2.text-lg.font-semibold
+          | Employment
+      .px-4.py-4.overflow-y-auto.max-h-96[data-modal-form-target="modalBodysDiv" data-employment-target="modalBodysDiv"]
+        div[data-employment-target="errorMessage"]
+          .px-4.py-2.font-bold.text-white.bg-red-500.rounded-t
+            |  Error
+          .px-4.py-4.text-red-700.bg-red-100.border.border-t-0.border-red-400.rounded-b
+            p
+              | Record not saved
+        div[data-employment-target="successMessage"]
+          .px-4.py-2.font-bold.text-white.bg-green-500.rounded-t
+            |  Success
+          .px-4.py-4.text-green-700.bg-green-100.border.border-t-0.border-green-400.rounded-b
+            p
+              | Record saved
+        = render partial: 'modal_dashboards/partials/employment_form'
+      .flex.justify-end.px-2.pt-8.pb-4
+        = button_tag class:"px-4 py-2 mr-12 font-bold text-white bg-red-400 rounded hover:bg-red-500", id: "addemploymentFieldsBtn", data: {employment_target: "addemploymentFieldsBtn", action: 'click->employment#addNewEmploymentForm'}, type: 'submit' do
+          |  Add Fields
+        button#employmentModalCloseBtn.px-4.py-2.mr-2.font-bold.text-white.bg-gray-500.rounded.hover:bg-gray-800[data-action="click->modal-form#close_employment_modal" type="button"]
+          | Cancel
+        = button_tag class:"px-4 py-2 font-bold text-white bg-blue-500 rounded", data: {employment_target: "submitAllBtn", action: 'click->employment#submitAllForms'}, type: 'submit' do
+          |  Save all Records
