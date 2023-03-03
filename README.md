@@ -1,4 +1,4 @@
-# Single-Page Application using Rails 7, SLIM, Hotwire, Stimulus, TurboFrames, Tailwind, MySQL, RSpec, and Faker
+# Employment Terminal
 
 This application is a single-page application built using the following technology stack:
 
